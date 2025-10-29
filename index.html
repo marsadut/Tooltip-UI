@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Tooltip</title>
+    <style>
+        /* --- Pengaturan Dasar --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: grid;
+            place-items: center; /* Menengahkan menu di halaman */
+            min-height: 300px;
+            background-color: #f4f4f4;
+        }
+
+        /* --- Navigasi --- */
+        .main-nav ul {
+            display: flex; /* Membuat menu horizontal */
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .main-nav li {
+            margin: 0 15px;
+        }
+        
+        /* Menambah titik pemisah */
+        .main-nav li + li::before {
+            content: '•';
+            margin-right: 30px; /* Jarak antara titik dan item */
+            color: #aaa;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+
+        /* === 1. POSITIONING (Penempatan) === */
+        
+        /* 'Jangkar' untuk tooltip */
+        .has-tooltip {
+            position: relative; /* KUNCI 1: Ini adalah 'jangkar' */
+        }
+
+        /* Tooltip itu sendiri */
+        .tooltip {
+            /* KUNCI 2: Diposisikan 'absolut' relatif terhadap 'jangkar' */
+            position: absolute;
+            
+            /* KUNCI 3: Penempatan */
+            bottom: 100%; /* 100% di atas 'jangkar' */
+            left: 50%;     /* 50% dari kiri 'jangkar' */
+            
+            /* KUNCI 4: Trik centering */
+            /* Geser ke kiri 50% dari LEBAR TOOLTIP SENDIRI */
+            transform: translateX(-50%); 
+            
+            margin-bottom: 15px; /* Jarak (termasuk panah) */
+
+            /* Styling */
+            background-color: #000;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            white-space: nowrap; /* Mencegah teks turun baris */
+        }
+
+        /* Panah segitiga di bawah tooltip */
+        .tooltip::after {
+            content: '';
+            position: absolute; /* Diposisikan relatif ke .tooltip */
+            top: 100%;  /* Tepat di bawah tooltip */
+            left: 50%;
+            transform: translateX(-50%);
+            
+            /* Trik Segitiga CSS */
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #000;
+        }
+
+
+        /* === 2. HOVER EFFECTS (Efek Hover) === */
+
+        /* Kondisi awal: Sembunyi */
+        .tooltip {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-50%) translateY(10px); /* Mulai sedikit di bawah */
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Kondisi saat di-hover */
+        .has-tooltip:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0); /* Pindah ke posisi akhir */
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li class="has-tooltip">
+                <a href="#">Projects</a>
+                <span class="tooltip">Here is everything I have built</span>
+            </li>
+            <li><a href="#">Blog</a></li>
+        </ul>
+    </nav>
+
+</body>
+</html>
